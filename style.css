@@ -1,117 +1,196 @@
-* {
-  box-sizing: border-box;
-}
+/* =========================
+   GENERAL
+========================= */
 
 body {
-  margin: 0;
-  background: #0000007e;
-  color: #222;
-  font-family: "Helvetica Neue", Arial, sans-serif;
+    background: #f4f4f4;
+    color: #222;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 #all-contents {
-  max-width: 1500px;
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 32px 40px;
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
 }
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+nav {
+    background: #222;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+nav h1 {
+    color: white;
+    margin: 0;
+    font-size: 24px;
+}
+
+#nav-ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0 0 0 auto;
+    padding: 0;
+}
+
+.nav-li {
+    display: inline-block;
+}
+
+.nav-li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-li a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
 main {
-  display: grid;
-  grid-template-columns: minmax(220px, 1fr) minmax(420px, 1.6fr);
-  align-items: center;
-  min-height: calc(100vh - 160px);
-  gap: clamp(32px, 5vw, 80px);
+    background: white;
+    display: flex;
+    gap: 25px;
+    padding: 25px;
+    border-radius: 12px;
 }
+
+
+/* =========================
+   SIDEBAR IMAGE
+========================= */
 
 .sidebar {
-  width: 100%;
+    width: 300px;
+    flex-shrink: 0;
 }
+
+.sidebar-img {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    display: block;
+    border-radius: 12px;
+}
+
+
+/* =========================
+   CONTENT
+========================= */
 
 .content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-}
-h2 {
-  margin: 0;
-  font-size: clamp(4rem, 10vw, 7rem);
-  line-height: 0.9;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-  color: #bd7114;
+    flex: 1;
 }
 
-.content > p {
-  margin: 0;
-  color: #fbf7f7;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  line-height: 1.4;
+.content h2 {
+    margin-top: 0;
+    font-size: 32px;
 }
+
+.content p {
+    font-size: 18px;
+}
+
+
+/* =========================
+   INTERESTS
+========================= */
+
 #interests {
-  margin-top: 32px;
-  width: 100%;
+    margin-top: 30px;
 }
 
 #interests h3 {
-  margin: 0 0 12px;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: #4c2803e3;
+    font-size: 22px;
 }
 
 #interests ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+    padding-left: 20px;
 }
 
 #interests li {
-  color: #4c2803e3;
-  font-size: 1rem;
-  font-weight: 600;
-  padding: 10px 20px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 100px;
-  transition:
-    background 0.25s ease,
-    color 0.25s ease,
-    transform 0.25s ease;
-  cursor: default;
+    margin-bottom: 8px;
 }
 
-#interests li:hover {
-  background: #000;
-  color: #fff;
-  border-color: #000;
-  transform: translateY(-2px);
-}
-.sidebar-img {
-  width: 100%;
-  max-width: 760px;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  display: block;
-  border-radius: 16px;
-  filter: grayscale(100%);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  transition:
-    filter 0.4s ease,
-    transform 0.4s ease,
-    box-shadow 0.4s ease;
+
+/* =========================
+   PORTFOLIO
+========================= */
+
+.content h1 {
+    color: black;
 }
 
-.sidebar-img:hover {
-  filter: grayscale(0%);
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+#portfolio {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#portfolio li {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+#portfolio a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    text-decoration: none;
+    color: #444;
+
+    padding: 16px 20px;
+
+    font-size: 1.1rem;
+    font-weight: 500;
+
+    background: #fff;
+
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+
+#portfolio a:hover {
+    background: #000;
+    color: #fff;
+    transform: translateX(4px);
+}
+
+#portfolio a::after {
+    content: "->";
+    font-size: 0.85rem;
+    opacity: 0.4;
+    transition: opacity 0.25s ease;
+    white-space: nowrap;
+}
+
+#portfolio a:hover::after {
+    opacity: 1;
 }
