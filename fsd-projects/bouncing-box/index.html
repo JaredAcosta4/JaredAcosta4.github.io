@@ -3,106 +3,675 @@
   <head>
     <meta charset="utf-8" />
     <title>Bouncing Box</title>
+
     <script src="jquery.min.js"></script>
+
     <style>
       .box {
         width: 70px;
         height: 70px;
+
         background-color: teal;
+
         font-size: 300%;
         text-align: center;
+
         user-select: none;
+
         display: block;
+
         position: absolute;
+
         top: 100px;
-        /* Change me! */
         left: 0px;
+
+        cursor: pointer;
+
+        border-radius: 10px;
       }
+
 
       .board {
         height: 100vh;
+
+        margin: 0;
+
+        overflow: hidden;
+
+
+        /* =====================================
+           CHALLENGE 1 - BACKGROUND IMAGE
+        ===================================== */
+
+        background-image:
+          url("https://img.magnific.com/premium-photo/fluorite-oil-painting-conceptual-abstract-picture-eye-oil-painting-palette-knife_259452-14.jpg?semt=ais_hybrid&w=740&q=80");
+
+        background-size: cover;
+
+        background-position: center;
+
+        background-repeat: no-repeat;
+      }
+
+
+      .game-info {
+        position: fixed;
+
+        top: 20px;
+        left: 20px;
+
+        background-color: white;
+
+        padding: 12px 18px;
+
+        border-radius: 10px;
+
+        font-family: Arial, sans-serif;
+
+        font-size: 18px;
+
+        z-index: 10;
+      }
+
+
+      .game-over {
+        position: fixed;
+
+        top: 50%;
+        left: 50%;
+
+        transform: translate(-50%, -50%);
+
+        background-color: white;
+
+        padding: 30px 50px;
+
+        border-radius: 15px;
+
+        font-family: Arial, sans-serif;
+
+        font-size: 40px;
+
+        font-weight: bold;
+
+        text-align: center;
+
+        z-index: 20;
       }
     </style>
-    <!-- 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
   </head>
 
+
   <body class="board">
+
+
+    <!-- Score / Miss Counter -->
+
+    <div class="game-info">
+
+      Points:
+      <span id="points-display">0</span>
+
+      |
+
+      Misses:
+      <span id="misses-display">0</span>/10
+
+    </div>
+
+
+
     <!-- HTML for the box -->
+
     <div class="box">?</div>
 
+
+
     <script>
+
       (function () {
+
         "use strict";
+
         /* global jQuery */
+
 
         //////////////////////////////////////////////////////////////////
         /////////////////// SETUP DO NOT DELETE //////////////////////////
         //////////////////////////////////////////////////////////////////
 
-        var box = jQuery(".box"); // reference to the HTML .box element
-        var board = jQuery(".board"); // reference to the HTML .board element
-        var boardWidth = board.width(); // the maximum X-Coordinate of the screen
 
-        // update the boardWidth variable when the window is resized
+        var box = jQuery(".box");
+
+        var board = jQuery(".board");
+
+
+        var boardWidth = board.width();
+
+
+        // ============================================
+        // CHALLENGE 2
+        // Store the height of the screen
+        // ============================================
+
+        var boardHeight = jQuery(window).height();
+
+
+
+        // Update board size when browser is resized
+
         jQuery(window).on("resize", function () {
+
           boardWidth = board.width();
+
+          boardHeight = jQuery(window).height();
+
         });
 
-        // Every 50 milliseconds, call the update Function (see below)
-        setInterval(update, 50);
 
-        // Every time the box is clicked, call the handleBoxClick Function (see below)
+
+        // Store the interval so Challenge 6 can stop it
+
+        var interval = setInterval(update, 50);
+
+
+
+        // Correct box click
+
         box.on("click", handleBoxClick);
 
-        // moves the Box to a new position on the screen along the X-Axis
-        function moveBoxTo(newPositionX) {
+
+
+        // Click anywhere else on the game board
+
+        board.on("click", handleBoardClick);
+
+
+
+        // ============================================
+        // CHALLENGE 2
+        // Move box horizontally AND vertically
+        // ============================================
+
+        function moveBoxTo(newPositionX, newPositionY) {
+
           box.css("left", newPositionX);
+
+          box.css("top", newPositionY);
+
         }
 
-        // changes the text displayed on the Box
+
+
+        // Change text inside box
+
         function changeBoxText(newText) {
+
           box.text(newText);
+
         }
+
+
 
         //////////////////////////////////////////////////////////////////
         /////////////////// YOUR CODE BELOW HERE /////////////////////////
         //////////////////////////////////////////////////////////////////
 
-        // TODO 2 - Variable declarations
 
+
+        // ============================================
+        // VARIABLES
+        // ============================================
+
+
+        // Horizontal position
+
+        var positionX = 0;
+
+
+        // ============================================
+        // CHALLENGE 2
+        // Vertical position
+        // ============================================
+
+        var positionY = 100;
+
+
+        // Score
+
+        var points = 0;
+
+
+        // Horizontal speed
+
+        var speed = 10;
+
+
+        // ============================================
+        // CHALLENGE 2
+        // Vertical speed
+        // ============================================
+
+        var speedY = 6;
+
+
+
+        // ============================================
+        // CHALLENGE 5
+        // How much speed is added per click
+        // ============================================
+
+        var speedIncrease = 3;
+
+
+
+        // ============================================
+        // CHALLENGE 6
+        // Mis-click counter
+        // ============================================
+
+        var misses = 0;
+
+
+        var gameOver = false;
 
 
 
 
         /**
-         * This Function will be called 20 times/second.
-         * Each time it is called, it should move the Box to a new location.
-         * If the box drifts off the screen, turn it around!
+         * Runs 20 times every second.
          */
+
         function update() {
 
-        
 
-          
+          // ============================================
+          // MOVE HORIZONTALLY
+          // ============================================
+
+          positionX = positionX + speed;
+
+
+
+          // ============================================
+          // CHALLENGE 2
+          // MOVE VERTICALLY
+          // ============================================
+
+          positionY = positionY + speedY;
+
+
+
+          // Keep entire box inside screen
+
+          var maxX = boardWidth - box.outerWidth();
+
+          var maxY = boardHeight - box.outerHeight();
+
+
+
+          // ============================================
+          // RIGHT WALL
+          // ============================================
+
+          if (positionX >= maxX) {
+
+            positionX = maxX;
+
+            speed = -Math.abs(speed);
+
+          }
+
+
+          // ============================================
+          // LEFT WALL
+          // ============================================
+
+          else if (positionX <= 0) {
+
+            positionX = 0;
+
+            speed = Math.abs(speed);
+
+          }
+
+
+
+          // ============================================
+          // CHALLENGE 2
+          // BOTTOM WALL
+          // ============================================
+
+          if (positionY >= maxY) {
+
+            positionY = maxY;
+
+            speedY = -Math.abs(speedY);
+
+          }
+
+
+          // ============================================
+          // CHALLENGE 2
+          // TOP WALL
+          // ============================================
+
+          else if (positionY <= 0) {
+
+            positionY = 0;
+
+            speedY = Math.abs(speedY);
+
+          }
+
+
+
+          // Move the box
+
+          moveBoxTo(positionX, positionY);
+
         }
+
+
+
+
 
         /**
-         * This Function will be called each time the box is clicked.
-         * Each time it is called, it should perform each of the following actions:
-         * - increase the points total
-         * - increase the speed
-         * - move the box to the left side of the screen.
+         * Runs when the BOX is clicked.
          */
-        function handleBoxClick() {
+
+        function handleBoxClick(event) {
+
+
+          // ============================================
+          // CHALLENGE 6
+          // Prevent this click from also counting
+          // as a mis-click on the board
+          // ============================================
+
+          event.stopPropagation();
 
 
 
+          if (gameOver) {
+
+            return;
+
+          }
+
+
+
+          // ============================================
+          // SCORE
+          // ============================================
+
+          points = points + 1;
+
+
+          changeBoxText(points);
+
+
+
+
+          // ============================================
+          // CHALLENGE 3
+          // RANDOM LOCATION
+          // ============================================
+
+
+          var maxX = boardWidth - box.outerWidth();
+
+          var maxY = boardHeight - box.outerHeight();
+
+
+          positionX = Math.random() * maxX;
+
+          positionY = Math.random() * maxY;
+
+
+          moveBoxTo(positionX, positionY);
+
+
+
+
+          // ============================================
+          // CHALLENGE 4
+          // CHANGE COLOR EVERY 3 CLICKS
+          // ============================================
+
+          if (points % 3 === 0) {
+
+            var randomColor = getRandomColor();
+
+            box.css("background-color", randomColor);
+
+          }
+
+
+
+
+          // ============================================
+          // CHALLENGE 5
+          //
+          // Every 3 clicks, increase HOW MUCH
+          // speed is added.
+          // ============================================
+
+          if (points % 3 === 0) {
+
+            speedIncrease = speedIncrease + 2;
+
+          }
+
+
+
+          // Preserve current horizontal direction
+
+          var directionX;
+
+
+          if (speed >= 0) {
+
+            directionX = 1;
+
+          }
+
+          else {
+
+            directionX = -1;
+
+          }
+
+
+
+          // Increase horizontal speed
+
+          speed =
+            directionX *
+            (Math.abs(speed) + speedIncrease);
+
+
+
+          // Preserve vertical direction
+
+          var directionY;
+
+
+          if (speedY >= 0) {
+
+            directionY = 1;
+
+          }
+
+          else {
+
+            directionY = -1;
+
+          }
+
+
+
+          // Increase vertical speed slightly
+
+          speedY =
+            directionY *
+            (Math.abs(speedY) + 1);
+
+
+
+          updateGameInfo();
 
         }
 
 
-        
+
+
+
+        // ============================================
+        // CHALLENGE 4
+        // RANDOM COLOR FUNCTION
+        // ============================================
+
+        function getRandomColor() {
+
+
+          var red =
+            Math.floor(Math.random() * 256);
+
+
+          var green =
+            Math.floor(Math.random() * 256);
+
+
+          var blue =
+            Math.floor(Math.random() * 256);
+
+
+
+          var colorStr =
+            "rgb(" +
+            red +
+            ", " +
+            green +
+            ", " +
+            blue +
+            ")";
+
+
+          return colorStr;
+
+        }
+
+
+
+
+
+        // ============================================
+        // CHALLENGE 6
+        // HANDLE MIS-CLICKS
+        // ============================================
+
+        function handleBoardClick() {
+
+
+          if (gameOver) {
+
+            return;
+
+          }
+
+
+
+          misses = misses + 1;
+
+
+
+          updateGameInfo();
+
+
+
+          if (misses >= 10) {
+
+            endGame();
+
+          }
+
+        }
+
+
+
+
+
+        // ============================================
+        // UPDATE SCORE DISPLAY
+        // ============================================
+
+        function updateGameInfo() {
+
+
+          jQuery("#points-display").text(points);
+
+          jQuery("#misses-display").text(misses);
+
+        }
+
+
+
+
+
+        // ============================================
+        // CHALLENGE 6
+        // GAME OVER
+        // ============================================
+
+        function endGame() {
+
+
+          gameOver = true;
+
+
+          // Stop update()
+          clearInterval(interval);
+
+
+          // Stop click handlers
+          box.off("click", handleBoxClick);
+
+          board.off("click", handleBoardClick);
+
+
+
+          // Show X in box
+          changeBoxText("X");
+
+
+
+          // Game Over message
+
+          board.append(
+
+            '<div class="game-over">' +
+
+            "GAME OVER" +
+
+            "<br>" +
+
+            "Score: " +
+
+            points +
+
+            "</div>"
+
+          );
+
+        }
+
+
+
       })();
+
     </script>
+
   </body>
+
 </html>
