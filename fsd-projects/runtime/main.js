@@ -15,7 +15,7 @@ $(function () {
       $(document).on("keyup", handleKeyUp);
       firstTimeSetup = false;
       //start game
-      setInterval(gameLoop, 1000 / frameRate);
+      requestAnimationFrame(gameLoop);
       // we want to block arrow keys and space from scrolling the page
       window.addEventListener("keydown", function (e) {
         const keysToBlock = [
@@ -87,6 +87,7 @@ $(function () {
 
     update();
     render();
+    requestAnimationFrame(gameLoop);
   }
   /*=====  End of Rendering and Physics Setup Code  ======*/
 });
@@ -189,6 +190,11 @@ function handleHallebotGenericCollision(gameObjectIndex) {
   health += gameObject.contactHealthChange;
   health = Math.max(0, Math.min(100, health));
 
+  if (health <= 0) {
+    currentAnimationType = animationTypes.frontDeath;
+    frameIndex = 0;
+  }
+
   if (gameObject.collect && gameObject.type !== "goal") {
     // mark the object for deletion if it is a collectible
     gameObject.toRemove = true;
@@ -236,6 +242,11 @@ function handleHallebotPlatformCollisions() {
         score += gameObject.contactScoreChange;
         health += gameObject.contactHealthChange;
         health = Math.max(0, Math.min(100, health));
+
+        if (health <= 0) {
+          currentAnimationType = animationTypes.frontDeath;
+          frameIndex = 0;
+        }
       }
     }
   }

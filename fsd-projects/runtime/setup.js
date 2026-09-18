@@ -30,9 +30,9 @@ const HUD_SETTINGS = {
 
 // setup variables
 const gravity = 0.5; // how much is subtracted from speedY each frame
-const playerJumpStrength = 12; // this is subtracted from the speedY each jump
+const playerJumpStrength = 15; // this is subtracted from the speedY each jump
 
-const projectileSpeed = 8; // the speed of projectiles
+const projectileSpeed = 12; // the speed of projectiles
 const projectileDamage = 1; // how much damage a projectile does to an enemy
 const projectileBaseSize = 20; // starting width and height of projectiles (does not actually need to be betweenthe min and max if students want the projectile to start bigger or smaller)
 const projectileMinSize = 15; // minimum width and height of projectiles
