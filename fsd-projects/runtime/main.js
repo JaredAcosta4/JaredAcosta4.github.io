@@ -2,17 +2,16 @@
 =            Rendering and Physics Setup Code            =
 ====================================================*/
 
-$(function () {
+document.addEventListener("DOMContentLoaded", function () {
   canvas = document.getElementById("gameCanvas");
   ctx = canvas.getContext("2d");
-  window.addEventListener("load", loadJson);
 
   function setup() {
     if (firstTimeSetup) {
       halleImage = document.getElementById("player");
       projectileImage = document.getElementById("projectile");
-      $(document).on("keydown", handleKeyDown);
-      $(document).on("keyup", handleKeyUp);
+      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener("keyup", handleKeyUp);
       firstTimeSetup = false;
       //start game
       requestAnimationFrame(gameLoop);
@@ -43,6 +42,7 @@ $(function () {
   }
 
   registerSetup(setup);
+  loadJson();
 
   function render() {
     // draw all scenery before drawing Hallebot
