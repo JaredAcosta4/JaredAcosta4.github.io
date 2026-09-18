@@ -4,7 +4,11 @@ function moveScenery() {
   for (var typeIndex = 0; typeIndex < sceneryTypes.length; typeIndex++) {
     var sceneryType = sceneryTypes[typeIndex];
 
-    for (var instanceIndex = 0; instanceIndex < sceneryType.instances.length; instanceIndex++) {
+    for (
+      var instanceIndex = 0;
+      instanceIndex < sceneryType.instances.length;
+      instanceIndex++
+    ) {
       var instance = sceneryType.instances[instanceIndex];
       instance.x += (instance.speedX || 0) - currentLevel.speed;
 
@@ -54,7 +58,10 @@ function moveGameObjects(objectList) {
   if (objectList.length > 0 && objectList[0].type === "enemy") {
     for (var enemyIndex = 0; enemyIndex < objectList.length; enemyIndex++) {
       var candidate = objectList[enemyIndex];
-      if (!candidate.retreating && (!activeEnemy || candidate.x < activeEnemy.x)) {
+      if (
+        !candidate.retreating &&
+        (!activeEnemy || candidate.x < activeEnemy.x)
+      ) {
         activeEnemy = candidate;
       }
     }
@@ -68,27 +75,39 @@ function moveGameObjects(objectList) {
     }
 
     var horizontalMovement = gameObject.speedX - currentLevel.speed;
-    if (gameObject.type === "enemy" && gameObject !== activeEnemy && !gameObject.retreating) {
+    if (
+      gameObject.type === "enemy" &&
+      gameObject !== activeEnemy &&
+      !gameObject.retreating
+    ) {
       horizontalMovement = 0;
     }
     gameObject.x += horizontalMovement;
     gameObject.y += gameObject.speedY;
 
     if (gameObject.type === "enemy") {
-      if (!gameObject.retreating && gameObject.x < player.x + player.hitBoxWidth) {
+      if (
+        !gameObject.retreating &&
+        gameObject.x < player.x + player.hitBoxWidth
+      ) {
         gameObject.x = player.x + player.hitBoxWidth - 1;
       }
 
-      if (gameObject.retreating && gameObject.x + gameObject.hitWidth < player.x - 160) {
+      if (
+        gameObject.retreating &&
+        gameObject.x + gameObject.hitWidth < player.x - 160
+      ) {
         gameObject.toRemove = true;
       }
-
     }
 
     if (gameObject.speedY !== 0) {
       if (gameObject.y < gameObject.minY || gameObject.y > gameObject.maxY) {
         gameObject.speedY *= -1;
-        gameObject.y = Math.max(gameObject.minY, Math.min(gameObject.y, gameObject.maxY));
+        gameObject.y = Math.max(
+          gameObject.minY,
+          Math.min(gameObject.y, gameObject.maxY),
+        );
       }
     }
   }
