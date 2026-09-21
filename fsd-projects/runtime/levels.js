@@ -155,7 +155,7 @@ const DEFAULT_VALUES = {
   },
   powerup: {
     healthUp: {
-      imageUrl: "images/interactable/health-up.png",
+      imageUrl: "images/interactable/healthUp.png",
       width: 32,
       height: 32,
       hitWidth: 32,
@@ -193,7 +193,7 @@ const DEFAULT_VALUES = {
   },
   platform: {
     basicPlatform: {
-      imageUrl: "images/interactable/basic-platform.png",
+      imageUrl: "images/interactable/basicPlatform.png",
       width: 200,
       height: 50,
       hitWidth: 200,
