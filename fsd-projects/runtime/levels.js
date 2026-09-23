@@ -149,7 +149,7 @@ const DEFAULT_VALUES = {
       contactScoreChange: 0,
       projectileHealthChange: 0,
       projectileScoreChange: 50,
-      hp: 3,
+      hp: 1,
       collect: false,
     },
   },

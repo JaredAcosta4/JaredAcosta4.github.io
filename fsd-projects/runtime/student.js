@@ -175,6 +175,7 @@ function triggerLevelTransition() {
     return;
   }
 
+  health = 100;
   currentLevel = LEVELS[currentLevelIndex];
   generateLevel();
 }
